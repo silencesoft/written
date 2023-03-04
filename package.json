@@ -16,7 +16,8 @@
     "next": "13.2.3",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "stitches-mixins": "^1.0.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.0-beta.61",

@@ -13,7 +13,7 @@ const Footer: React.FC<Props> = (props: Props) => {
         }}
       />
       <Spacer y={1} />
-      <div>(c) 2023)</div>
+      <div>(c) 2023</div>
     </>
   );
 };

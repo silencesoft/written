@@ -1,6 +1,7 @@
-import { Button, Navbar, Spacer } from '@nextui-org/react';
+import { Navbar, Spacer } from '@nextui-org/react';
 import React from 'react';
 
+import LoggedIn from './LoggedIn';
 import SiteName from './SiteName';
 import ToggleTheme from './ToggleTheme';
 
@@ -18,7 +19,7 @@ const Header: React.FC<Props> = (props: Props) => {
         <Navbar.Content></Navbar.Content>
         <Navbar.Content>
           <ToggleTheme />
-          <Button auto>Login</Button>
+          <LoggedIn />
         </Navbar.Content>
       </Navbar>
       <Spacer y={2} />

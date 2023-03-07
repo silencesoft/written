@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../Footer';
 
 import Header from '../Header';
-import WithSidebar from './WithSIdebar';
+import WithSidebar from './WithSidebar';
 
 type Props = {
   children: JSX.Element;

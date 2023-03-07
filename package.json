@@ -13,14 +13,19 @@
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.12",
     "@stitches/react": "^1.2.8",
+    "@types/uuid": "^9.0.1",
+    "dayjs": "^1.11.7",
     "jotai": "^1.12.1",
     "next": "13.2.3",
     "next-themes": "^0.2.1",
+    "nostr-react": "^0.6.4",
+    "nostr-tools": "^1.7.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.4",
     "react-icons": "^4.8.0",
-    "stitches-mixins": "^1.0.0"
+    "stitches-mixins": "^1.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.0-beta.61",

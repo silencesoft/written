@@ -1,21 +1,32 @@
 import { Avatar, Button, Card, Col, Row, Text } from '@nextui-org/react';
+import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useProfile } from 'nostr-react';
 import React from 'react';
 import { RxLightningBolt } from 'react-icons/rx';
 
-type Props = {};
+import { Post } from '@/interfaces/posts/post';
 
-const Item: React.FC<Props> = (props: Props) => {
+type Props = {
+  post: Post;
+};
+
+const Item: React.FC<Props> = ({ post }: Props) => {
+  const { title, author, published_at, slug, tags } = post;
+  const { data: userData } = useProfile({
+    pubkey: author,
+  });
+
   return (
-    <Link href="/post-detail" style={{ display: 'block', width: '100%' }}>
+    <Link href={`/post/${slug}`} style={{ display: 'block', width: '100%' }}>
       <Card isPressable>
         <Card.Header css={{ position: 'absolute', zIndex: 1, top: 5 }}>
           <Col>
             <Text size={12} weight="bold" transform="uppercase">
-              What to watch
+              {tags[0]}
             </Text>
             <Text h2 size={20} color="white">
-              Stream the Acme event
+              {title}
             </Text>
           </Col>
         </Card.Header>
@@ -44,10 +55,10 @@ const Item: React.FC<Props> = (props: Props) => {
                 </Col>
                 <Col>
                   <Text color="#d1d1d1" size={12}>
-                    Author name
+                    @{userData?.name}&nbsp;
                   </Text>
                   <Text color="#d1d1d1" size={10}>
-                    10-10-2022
+                    {dayjs.unix(published_at).format('MMM D, YYYY')}
                   </Text>
                 </Col>
               </Row>

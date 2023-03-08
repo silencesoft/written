@@ -32,9 +32,11 @@ export const useGetPosts = (props: Props) => {
       case 'author':
         type = 'authors';
         event.filter[type] = [filter.value];
+        break;
       case 'post':
         type = 'ids';
         event.filter[type] = [filter.value];
+        break;
       default:
         break;
     }

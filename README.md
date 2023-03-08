@@ -1,38 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Written
+
+Blog application using nostr.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
+git clone https://github.com/silencesoft/written.git
+cd written
+yarn
+cp .env.example .env.local
 yarn dev
-# or
-pnpm dev
 ```
 
+Modify the environment variables file:
+
+- NEXT_PUBLIC_URL : Website url
+- NEXT_PUBLIC_NAME : Application name, it shows this name in the header.
+- NEXT_PUBLIC_RELAY : Nostr Relay to be used.
+- NEXT_PUBLIC_ADMIN : Administrator's public key.
+- NEXT_PUBLIC_AUTHOR_1 NEXT_PUBLIC_AUTHOR_2 ... : Blog Publishers' public keys (any as required).
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Thanks
+
+My Nostr Public key: [npub1gcmpunjrue2aq5um7qgnp4p6uxarlxw2z6djehaf0emxjf6gr9us548zdf](nostr:npub1gcmpunjrue2aq5um7qgnp4p6uxarlxw2z6djehaf0emxjf6gr9us548zdf)
+
+Buy me a coffee (with satoshis): [https://lncoffee.me/silencesoft](https://lncoffee.me/silencesoft)
+
+

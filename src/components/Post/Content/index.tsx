@@ -1,9 +1,21 @@
-import React from 'react';
+import { Container } from '@nextui-org/react';
+import React, { useEffect } from 'react';
+import { useRemark } from 'react-remark';
 
-type Props = {};
+type Props = {
+  content: string;
+};
 
-const Content: React.FC<Props> = (props: Props) => {
-  return <div>Content</div>;
+const Content: React.FC<Props> = ({ content }: Props) => {
+  const [reactContent, setMarkdownSource] = useRemark();
+  console.log(content);
+
+  useEffect(() => {
+    setMarkdownSource(content);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <Container>{reactContent}</Container>;
 };
 
 export default Content;

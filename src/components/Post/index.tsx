@@ -1,20 +1,48 @@
-import { Container, Spacer } from '@nextui-org/react';
-import React from 'react';
+import { Container, Loading, Spacer } from '@nextui-org/react';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useRouter } from 'next/router';
+import React, { Suspense, useEffect } from 'react';
 import Content from './Content';
 
+import { useGetPosts } from '@/hooks/useGetPosts';
+import { filterAtom, postsAtom } from '@/state/nostr';
 import Info from './Info';
 import Title from './Title';
 
 type Props = {};
 
 const Post: React.FC<Props> = (props: Props) => {
+  const router = useRouter();
+  const { slug } = router.query;
+  const posts = useAtomValue(postsAtom);
+  // const post = posts.filter((post) => post.slug === slug || post.id === slug);
+
+  const setFilter = useSetAtom(filterAtom);
+
+  useEffect(() => {
+    if (slug) {
+      setFilter({ type: 'post', value: slug?.toString() });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
+
+  useGetPosts({});
+
+  if (!posts.length) {
+    return <></>;
+  }
+
+  const { title, content, image, published_at, author } = posts?.[0];
+
   return (
     <Container>
-      <Title />
+      <Title title={title} image={image} />
       <Spacer y={1} />
-      <Info />
+      <Suspense fallback={<Loading />}>
+        <Info author={author} date={published_at} content={content} />
+      </Suspense>
       <Spacer y={2} />
-      <Content />
+      <Content content={content} />
     </Container>
   );
 };

@@ -21,6 +21,7 @@ export const useGetPosts = (props: Props) => {
       limit: 10,
     },
   };
+
   if (filter.type) {
     let type = '';
     switch (filter.type) {
@@ -31,11 +32,16 @@ export const useGetPosts = (props: Props) => {
       case 'author':
         type = 'authors';
         event.filter[type] = [filter.value];
+      case 'post':
+        type = 'ids';
+        event.filter[type] = [filter.value];
       default:
         break;
     }
   }
+
   const { events } = useNostrEvents(event);
+  const eventsString = JSON.stringify(events);
 
   useEffect(() => {
     const data: Post[] = [];
@@ -43,6 +49,7 @@ export const useGetPosts = (props: Props) => {
 
     events.forEach((event) => {
       const title = event.tags.filter((tag) => tag[0] === 'title');
+      const image = event.tags.filter((tag) => tag[0] === 'image');
       const publishedAt = event.tags.filter((tag) => tag[0] === 'published_at');
       const slug = event.tags.filter((tag) => tag[0] === 'slug');
       const tags = event.tags.filter((tag) => tag[0] === 't');
@@ -52,6 +59,8 @@ export const useGetPosts = (props: Props) => {
       data.push({
         id: event.id,
         title: title[0][1],
+        content: event.content,
+        image: image.length ? image[0][1] : '',
         author: event.pubkey,
         slug: slug.length ? slug[0][1] : event.id,
         published_at: publishedAt.length ? parseInt(publishedAt[0][1]) : 0,
@@ -63,7 +72,7 @@ export const useGetPosts = (props: Props) => {
     setTags(list.filter((item, index) => list.indexOf(item) === index));
     setPosts(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [events.length, filter.value]);
+  }, [eventsString, filter.value]);
 
   return posts;
 };

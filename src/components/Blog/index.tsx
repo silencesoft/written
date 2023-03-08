@@ -18,8 +18,8 @@ const Blog: React.FC<Props> = (props: Props) => {
       {!!posts.length &&
         posts.map((post) => (
           <Grid xs={12} sm={6} key={post.id}>
-              <Item post={post} />y
             <Suspense fallback={<Loading />}>
+              <Item post={post} />
             </Suspense>
           </Grid>
         ))}

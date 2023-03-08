@@ -1,4 +1,4 @@
-export type FilterType = 'tag' | 'author';
+export type FilterType = 'tag' | 'author' | 'post';
 
 export interface Filter {
   type: FilterType;

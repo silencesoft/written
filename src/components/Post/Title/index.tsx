@@ -1,29 +1,27 @@
 import { Card, Col, Text } from '@nextui-org/react';
-import { useAtomValue } from 'jotai';
-import { useRouter } from 'next/router';
 import React from 'react';
 
-import { postsAtom } from '@/state/nostr';
+type Props = {
+  title: string;
+  image?: string;
+};
 
-type Props = {};
-
-const Title: React.FC<Props> = (props: Props) => {
-  const router = useRouter();
-  const { slug } = router.query;
-  const posts = useAtomValue(postsAtom);
-  const post = posts.filter((post) => post.slug === slug || post.id === slug);
-
+const Title: React.FC<Props> = ({ title, image }: Props) => {
   return (
     <Card>
-      <Card.Header css={{ position: 'absolute', zIndex: 1, bottom: 5 }}>
+      <Card.Footer isBlurred css={{ position: 'absolute', zIndex: 1, bottom: 0, bgBlur: '#0f111466' }}>
         <Col>
           <Text h2 size={28} css={{ textAlign: 'center' }} color="white">
-            {post?.[0]?.title || ''}
+            {title}
           </Text>
         </Col>
-      </Card.Header>
+      </Card.Footer>
       <Card.Image
-        src="https://nextui.org/images/card-example-4.jpeg"
+        src={
+          image
+            ? image
+            : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII= '
+        }
         objectFit="cover"
         width="100%"
         height={340}

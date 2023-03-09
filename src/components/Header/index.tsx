@@ -1,5 +1,7 @@
-import { Navbar, Spacer } from '@nextui-org/react';
-import React from 'react';
+import { Button, Loading, Navbar, Spacer } from '@nextui-org/react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import React, { Suspense } from 'react';
 
 import LoggedIn from './LoggedIn';
 import SiteName from './SiteName';
@@ -9,6 +11,12 @@ type Props = {};
 
 const Header: React.FC<Props> = (props: Props) => {
   const siteName = process.env.NEXT_PUBLIC_NAME;
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const goLogin = () => {
+    router.push('/login');
+  };
 
   return (
     <>
@@ -19,7 +27,18 @@ const Header: React.FC<Props> = (props: Props) => {
         <Navbar.Content></Navbar.Content>
         <Navbar.Content>
           <ToggleTheme />
-          <LoggedIn />
+          <Suspense fallback={<Loading />}>
+            {!session?.user && (
+              <Button auto onClick={goLogin}>
+                Login
+              </Button>
+            )}
+            {session?.user && (
+              <>
+                <LoggedIn />
+              </>
+            )}
+          </Suspense>
         </Navbar.Content>
       </Navbar>
       <Spacer y={2} />

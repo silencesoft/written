@@ -1,10 +1,9 @@
 import { Button, Container, Input, Spacer } from '@nextui-org/react';
-import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { userAtom } from '@/state/user';
+import { signIn } from 'next-auth/react';
 
 type Props = {};
 
@@ -20,10 +19,19 @@ const Login: React.FC<Props> = (props: Props) => {
     formState: { errors },
   } = useForm<LoginForm>();
   const router = useRouter();
-  const setUser = useSetAtom(userAtom);
 
-  const onSubmit = (data: LoginForm) => {
-    setUser({ pk: '1', sk: '1', ext: false });
+  const onSubmit = async (data: LoginForm) => {
+    const response = await signIn('credentials', {
+      redirect: false,
+      key: data.key,
+      callbackUrl: `${process.env.NEXT_PUBLIC_URL}/user`,
+    });
+
+    if (response?.error) {
+      setError('key', { message: response.error });
+      return;
+    }
+
     router.push('/');
   };
 

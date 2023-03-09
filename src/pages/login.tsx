@@ -51,7 +51,7 @@ const Login: React.FC<Props> = (props: Props) => {
               value={value}
               onChange={onChange}
               onBlur={onBlur}
-              placeholder="nsecXXX"
+              placeholder="(hex)"
               color={errors?.key ? 'error' : 'default'}
               helperColor={errors?.key ? 'error' : 'default'}
               helperText={errors?.key ? errors.key.message : ''}

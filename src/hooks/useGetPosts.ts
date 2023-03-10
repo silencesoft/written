@@ -37,6 +37,10 @@ export const useGetPosts = (props: Props) => {
         type = 'ids';
         event.filter[type] = [filter.value];
         break;
+      case 'slug':
+        type = '#d';
+        event.filter[type] = [filter.value];
+        break;
       default:
         break;
     }
@@ -53,7 +57,7 @@ export const useGetPosts = (props: Props) => {
       const title = event.tags.filter((tag) => tag[0] === 'title');
       const image = event.tags.filter((tag) => tag[0] === 'image');
       const publishedAt = event.tags.filter((tag) => tag[0] === 'published_at');
-      const slug = event.tags.filter((tag) => tag[0] === 'slug');
+      const slug = event.tags.filter((tag) => tag[0] === 'd');
       const tags = event.tags.filter((tag) => tag[0] === 't');
       const summary = event.tags.filter((tag) => tag[0] === 'summary');
       list = [...list, ...tags.map((tag) => tag[1].toLowerCase())];

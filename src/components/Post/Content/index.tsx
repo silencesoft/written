@@ -8,7 +8,6 @@ type Props = {
 
 const Content: React.FC<Props> = ({ content }: Props) => {
   const [reactContent, setMarkdownSource] = useRemark();
-  console.log(content);
 
   useEffect(() => {
     setMarkdownSource(content);

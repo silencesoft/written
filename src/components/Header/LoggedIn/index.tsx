@@ -1,14 +1,16 @@
 import { Avatar, Dropdown, Navbar, Text } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useProfile } from 'nostr-react';
 import React from 'react';
 import { RxPerson } from 'react-icons/rx';
 
 type Props = {};
 
-type Action = 'profile' | 'logout';
+type Action = 'profile' | 'logout' | 'create';
 
 const LoggedIn: React.FC<Props> = (props: Props) => {
+  const router = useRouter();
   const { data: session } = useSession();
   const { data: userData } = useProfile({
     pubkey: session?.user?.name || '',
@@ -17,6 +19,8 @@ const LoggedIn: React.FC<Props> = (props: Props) => {
   const doAction = (action: Action): void => {
     if (action === 'logout') {
       signOut();
+    } else if (action === 'create') {
+      router.push('/edit/0');
     }
   };
 
@@ -43,6 +47,11 @@ const LoggedIn: React.FC<Props> = (props: Props) => {
                 </Text> */}
             <Text b color="inherit" css={{ d: 'flex' }}>
               @{userData?.name}
+            </Text>
+          </Dropdown.Item>
+          <Dropdown.Item key="create" css={{ height: '$18' }}>
+            <Text b color="inherit" css={{ d: 'flex' }}>
+              Create Post
             </Text>
           </Dropdown.Item>
           <Dropdown.Item key="logout" withDivider color="error">

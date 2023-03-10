@@ -1,18 +1,22 @@
 import { Avatar, Button, Col, Container, Row, Text } from '@nextui-org/react';
 import dayjs from 'dayjs';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useProfile } from 'nostr-react';
 import { RxCalendar, RxClock, RxLightningBolt, RxPerson } from 'react-icons/rx';
+import { TiEdit } from 'react-icons/ti';
 import readingTime from 'reading-time';
 
 type Props = {
+  id: string;
   author: string;
   date: number;
   content: string;
 };
 
-const Info = ({ author, date, content }: Props) => {
+const Info = ({ id, author, date, content }: Props) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { data: userData } = useProfile({
     pubkey: author,
   });
@@ -20,6 +24,10 @@ const Info = ({ author, date, content }: Props) => {
 
   const openWallet = () => {
     router.push(`lightning:${userData?.lud16}`);
+  };
+
+  const goEdit = () => {
+    router.push(`/edit/${id}`);
   };
 
   return (
@@ -60,6 +68,9 @@ const Info = ({ author, date, content }: Props) => {
         </Col>
         <Col span={3} css={{ padding: 0, margin: 0 }}>
           <Row justify="flex-end">
+            {session?.user?.name === author && (
+              <Button light auto icon={<TiEdit />} css={{ color: '#94f9f0' }} onClick={goEdit} />
+            )}
             {userData?.lud16 && (
               <Button light auto icon={<RxLightningBolt />} css={{ color: '#94f9f0' }} onClick={openWallet} />
             )}

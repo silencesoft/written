@@ -33,6 +33,7 @@ export const authOptions = {
         if (authors.includes(publicKey)) {
           const user: ExtendedUser = {
             id: key,
+            image: key,
             name: publicKey,
           };
 
@@ -44,4 +45,5 @@ export const authOptions = {
     }),
   ],
 };
+
 export default NextAuth(authOptions);

@@ -21,7 +21,11 @@ const Post: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     if (slug) {
-      setFilter({ type: 'post', value: slug?.toString() });
+      if (slug.toString().match(/[0-9A-Fa-f]{6}/g)) {
+        setFilter({ type: 'post', value: slug?.toString() });
+      } else {
+        setFilter({ type: 'slug', value: slug?.toString() });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
@@ -32,14 +36,14 @@ const Post: React.FC<Props> = (props: Props) => {
     return <></>;
   }
 
-  const { title, content, image, published_at, author } = posts?.[0];
+  const { id, title, content, image, published_at, author } = posts?.[0];
 
   return (
     <Container>
       <Title title={title} image={image} />
       <Spacer y={1} />
       <Suspense fallback={<Loading />}>
-        <Info author={author} date={published_at} content={content} />
+        <Info author={author} date={published_at} content={content} id={id} />
       </Suspense>
       <Spacer y={2} />
       <Content content={content} />

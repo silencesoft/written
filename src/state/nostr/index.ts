@@ -4,9 +4,16 @@ import { Filter } from '@/interfaces/nostr/filter';
 import { Post } from '@/interfaces/posts/post';
 import { getAuthors } from '@/services/getAuthors';
 
-const relay: string = process.env.NEXT_PUBLIC_RELAY || '';
+export const relaysAtom = atom<string[]>(() => {
+  const relay: string = process.env.NEXT_PUBLIC_RELAY || '';
+  const relays: string[] = relay.split(',');
 
-export const relaysAtom = atom<string[]>([relay]);
+  if (relays.length) {
+    return relays;
+  } else {
+    return [];
+  }
+});
 
 export const postsAtom = atom<Post[]>([]);
 

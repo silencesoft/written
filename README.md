@@ -18,7 +18,7 @@ Modify the environment variables file:
 - NEXTAUTH_URL : Website url
 - NEXTAUTH_SECRET : Secret word for next authentication
 - NEXT_PUBLIC_NAME : Application name, it shows this name in the header.
-- NEXT_PUBLIC_RELAY : Nostr Relay to be used.
+- NEXT_PUBLIC_RELAY : Nostr Relay to be used. To use more than one, type them separated by commas.
 - NEXT_PUBLIC_ADMIN : Administrator's public key.
 - NEXT_PUBLIC_AUTHOR_1 NEXT_PUBLIC_AUTHOR_2 ... : Blog Publishers' public keys (any as required).
 

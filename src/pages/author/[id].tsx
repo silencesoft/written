@@ -2,7 +2,9 @@ import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
+import Author from '@/components/Author';
 import { filterAtom } from '@/state/nostr';
+import { Container, Spacer } from '@nextui-org/react';
 import Home from '..';
 
 type Props = {};
@@ -16,12 +18,18 @@ const Tag: React.FC<Props> = (props: Props) => {
     if (id) {
       setFilter({ type: 'author', value: id?.toString() });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
     <>
-      <Home embedded={true} />
+      {id && (
+        <Container>
+          <Author />
+          <Spacer y={2} />
+          <Home embedded={true} />
+        </Container>
+      )}
     </>
   );
 };

@@ -21,7 +21,7 @@ const Post: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     if (slug) {
-      if (slug.toString().match(/[0-9A-Fa-f]{6}/g)) {
+      if (slug.toString().match(/[0-9A-Fa-f]{6}/g) && slug.toString().length > 20) {
         setFilter({ type: 'post', value: slug?.toString() });
       } else {
         setFilter({ type: 'slug', value: slug?.toString() });
@@ -36,7 +36,7 @@ const Post: React.FC<Props> = (props: Props) => {
     return <></>;
   }
 
-  const { id, title, content, image, published_at, author } = posts?.[0];
+  const { id, title, content, image, published_at, author, aRefs, pRefs } = posts?.[0];
 
   return (
     <Container>
@@ -46,7 +46,7 @@ const Post: React.FC<Props> = (props: Props) => {
         <Info author={author} date={published_at} content={content} id={id} />
       </Suspense>
       <Spacer y={2} />
-      <Content content={content} />
+      <Content content={content} aRefs={aRefs} pRefs={pRefs} />
     </Container>
   );
 };

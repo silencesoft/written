@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Container, Row, Text } from '@nextui-org/react';
+import { Avatar, Button, Col, Container, Link, Row, Text } from '@nextui-org/react';
 import dayjs from 'dayjs';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -35,21 +35,21 @@ const Info = ({ id, author, date, content }: Props) => {
       <Row>
         <Col span={9} css={{ padding: 0, margin: 0 }}>
           <Container css={{ d: 'flex', gap: 10, padding: 0, margin: 0 }}>
-            <div>
+            <Link href={`/author/${author}`} style={{ display: 'block', width: '100%' }}>
               {userData?.picture ? (
                 <Avatar src={userData?.picture} size="lg" />
               ) : (
                 <Avatar icon={<RxPerson />} size="lg" />
               )}
-            </div>
-            <div>
+            </Link>
+            <Link href={`/author/${author}`} style={{ display: 'block', width: '100%' }}>
               <Text color="#d1d1d1" size={12}>
                 {userData?.display_name} &nbsp;
               </Text>
               <Text color="#d1d1d1" size={10}>
                 @{userData?.name} &nbsp;
               </Text>
-            </div>
+            </Link>
             <div>
               <Container css={{ d: 'flex' }}>
                 <RxCalendar /> &nbsp;

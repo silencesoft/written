@@ -3,6 +3,7 @@ import { Metadata, useNostrEvents } from 'nostr-react';
 import React, { useEffect, useState } from 'react';
 import { useRemark } from 'react-remark';
 
+import DoLink from '@/components/General/DoLink';
 import { Refs } from '@/interfaces/posts/post';
 
 type Props = {
@@ -13,6 +14,11 @@ type Props = {
 
 const Content: React.FC<Props> = ({ content, pRefs }: Props) => {
   const [reactContent, setMarkdownSource] = useRemark();
+  pRefs?.forEach((pRef) => {
+    const search = `#[${pRef.pos}]`;
+
+    content = content.replace(search, `[${pRef.value}](nostr:${pRef.value})`);
+  });
   const [output, setOutput] = useState(content);
   const authorsList = pRefs?.map((pRef) => pRef.value);
 
@@ -31,10 +37,13 @@ const Content: React.FC<Props> = ({ content, pRefs }: Props) => {
         authors.forEach((author) => {
           const value: Refs[] = pRefs?.filter((pRef) => pRef.value === author.pubkey) || ([] as Refs[]);
           const userData: Metadata = JSON.parse(author.content);
-          if (value?.length) {
-            const search = `#[${value[0].pos}]`;
 
-            replaced = replaced.replace(search, `[@${userData.name}](nostr:${author.pubkey})`);
+          if (value?.length) {
+            const search = `[${value[0].value}](nostr`;
+
+            if (userData?.name) {
+              replaced = replaced.replace(search, `[@${userData.name}](nostr`);
+            }
           }
         });
       }
@@ -51,7 +60,11 @@ const Content: React.FC<Props> = ({ content, pRefs }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [output]);
 
-  return <Container>{reactContent}</Container>;
+  return (
+    <Container>
+      <DoLink>{reactContent}</DoLink>
+    </Container>
+  );
 };
 
 export default Content;

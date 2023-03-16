@@ -1,4 +1,3 @@
-import { renderString } from '@/utils/renderString';
 import { Avatar, Button, Card, Col, Container, Link, Row, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { useProfile } from 'nostr-react';
@@ -6,7 +5,9 @@ import { nip05 } from 'nostr-tools';
 import React, { useEffect, useState } from 'react';
 import { RiShieldCheckLine, RiSpam2Line } from 'react-icons/ri';
 import { RxLightningBolt, RxPerson } from 'react-icons/rx';
-import Linkify from 'react-linkify';
+
+import DoLink from '@/components/General/DoLink';
+import { RenderString } from '@/components/General/RenderString';
 
 type Props = {};
 
@@ -74,15 +75,7 @@ const Header: React.FC<Props> = (props: Props) => {
       <Container>
         {userData?.about && (
           <Text>
-            <Linkify
-              componentDecorator={(decoratedHref, decoratedText, key) => (
-                <Link target="blank" href={decoratedHref} key={key}>
-                  {decoratedText}
-                </Link>
-              )}
-            >
-              {renderString(userData?.about)}
-            </Linkify>
+            <DoLink>{RenderString(userData?.about)}</DoLink>
           </Text>
         )}
         {userData?.website && (

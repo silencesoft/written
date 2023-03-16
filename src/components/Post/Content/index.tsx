@@ -62,7 +62,7 @@ const Content: React.FC<Props> = ({ content, pRefs }: Props) => {
 
   return (
     <Container>
-      <DoLink>{reactContent}</DoLink>
+      {reactContent && <DoLink>{reactContent}</DoLink>}
     </Container>
   );
 };

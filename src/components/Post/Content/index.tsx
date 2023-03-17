@@ -19,7 +19,7 @@ const Content: React.FC<Props> = ({ content, pRefs, eRefs, aRefs }: Props) => {
   pRefs?.forEach((pRef) => {
     const search = `#[${pRef.pos}]`;
 
-    content = content.replace(search, `[${pRef.value}](nostr:${pRef.value})`);
+    content = content.replace(search, `[${pRef.value}](nostr:${nip19.npubEncode(pRef.value)})`);
   });
   eRefs?.forEach((eRef) => {
     const search = `#[${eRef.pos}]`;
@@ -117,11 +117,7 @@ const Content: React.FC<Props> = ({ content, pRefs, eRefs, aRefs }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [output]);
 
-  return (
-    <Container>
-      {reactContent && <DoLink>{reactContent}</DoLink>}
-    </Container>
-  );
+  return <Container>{reactContent && <DoLink>{reactContent}</DoLink>}</Container>;
 };
 
 export default Content;

@@ -60,6 +60,7 @@ export const useGetPosts = (props: Props) => {
       const slug = event.tags.filter((tag) => tag[0] === 'd');
       const tags = event.tags.filter((tag) => tag[0] === 't');
       const aRefs = event.tags.filter((tag) => tag[0] === 'a');
+      const eRefs = event.tags.filter((tag) => tag[0] === 'e');
       const pRefs = event.tags.filter((tag) => tag[0] === 'p');
       const summary = event.tags.filter((tag) => tag[0] === 'summary');
       list = [...list, ...tags.map((tag) => tag[1].toLowerCase())];
@@ -76,6 +77,9 @@ export const useGetPosts = (props: Props) => {
         summary: summary.length ? summary[0][1] : '',
         aRefs: aRefs.map((aRef) => {
           return { pos: parseInt(aRef[2]), value: aRef[1].toLowerCase() };
+        }),
+        eRefs: eRefs.map((eRef) => {
+          return { pos: parseInt(eRef[2]), value: eRef[1].toLowerCase() };
         }),
         pRefs: pRefs.map((pRef) => {
           return { pos: parseInt(pRef[2]), value: pRef[1].toLowerCase() };

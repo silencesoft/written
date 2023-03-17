@@ -14,5 +14,6 @@ export interface Post {
   summary: string;
   published_at: number;
   aRefs?: Refs[];
+  eRefs?: Refs[];
   pRefs?: Refs[];
 }

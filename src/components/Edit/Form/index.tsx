@@ -205,9 +205,9 @@ const Form: React.FC<Props> = (props: Props) => {
               placeholder="tag1,tag2"
               onChange={onChange}
               onBlur={onBlur}
-              color={errors?.slug ? 'error' : 'default'}
-              helperColor={errors?.slug ? 'error' : 'default'}
-              helperText={errors?.slug ? errors.slug.message : ''}
+              color={errors?.tags ? 'error' : 'default'}
+              helperColor={errors?.tags ? 'error' : 'default'}
+              helperText={errors?.tags ? errors.tags.message : ''}
             />
           )}
         />

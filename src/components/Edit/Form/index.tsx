@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { dateToUnix, useNostr } from 'nostr-react';
-import { getEventHash, getPublicKey, signEvent, verifySignature, type Event as NostrEvent } from 'nostr-tools';
+import { getEventHash, getPublicKey, nip19, signEvent, verifySignature, type Event as NostrEvent } from 'nostr-tools';
 import React, { Suspense, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -41,26 +41,50 @@ const Form: React.FC<Props> = (props: Props) => {
   const onSubmit = async (data: EditForm) => {
     const tags = data.tags.split(',');
     const date = dateToUnix();
+    let content = data.content;
 
     const event: NostrEvent = {
-      content: data.content,
+      content: content,
       kind: 30023,
-      tags: [
-        ['d', data.slug],
-        ['title', data.title],
-        ['image', data.image],
-        ['summary', data.summary],
-        ['published_at', id !== '0' ? posts[0].published_at.toString() : date.toString()],
-      ],
       created_at: date,
       pubkey: getPublicKey(session?.user?.image || ''),
       id: '',
       sig: '',
+      tags: [
+        ['d', data.slug],
+        ['title', data.title],
+        ['summary', data.summary],
+        ['published_at', id !== '0' ? posts[0].published_at.toString() : date.toString()],
+      ],
     };
+
+    if (data.image) {
+      event.tags.push(['image', data.image]);
+    }
 
     tags.forEach((tag) => {
       event.tags.push(['t', tag.trim()]);
     });
+
+    const profiles = content.match(/@npub\w+/gi);
+    let ref = event.tags.length;
+
+    const newTags: any = [];
+
+    profiles?.forEach((profile) => {
+      const user = nip19.decode(profile.replace('@', ''));
+
+      content = content.replace(profile, `#[${ref}]`);
+
+      newTags.push(['p', user.data, ref]);
+
+      ref++;
+    });
+
+    if (profiles?.length) {
+      event.content = content;
+      event.tags = [...event.tags, ...newTags];
+    }
 
     try {
       event.id = getEventHash(event);
@@ -90,13 +114,26 @@ const Form: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     if (id === '0' || !posts.length || !posts[0].id) return;
 
+    let content = posts[0].content;
+
+    if (posts[0].pRefs?.length) {
+      const { pRefs } = posts[0];
+
+      pRefs.forEach((pRef) => {
+        const search = `#[${pRef.pos}]`;
+        const npub = nip19.npubEncode(pRef.value);
+
+        content = content.replace(search, `@${npub}`);
+      });
+    }
+
     const post: EditForm = {
       title: posts[0].title,
       image: posts[0].image,
       slug: posts[0].slug,
       summary: posts[0].summary,
       tags: posts[0].tags.join(','),
-      content: posts[0].content,
+      content,
       published_at: posts[0].published_at,
     };
 

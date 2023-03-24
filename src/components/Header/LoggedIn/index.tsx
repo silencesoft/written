@@ -21,6 +21,8 @@ const LoggedIn: React.FC<Props> = (props: Props) => {
       signOut();
     } else if (action === 'create') {
       router.push('/edit/0');
+    } else if (action === 'profile') {
+      router.push(`/author/${session?.user?.name}`);
     }
   };
 

@@ -42,12 +42,14 @@ const Form: React.FC<Props> = (props: Props) => {
     const tags = data.tags.split(',');
     const date = dateToUnix();
     let content = data.content;
+    const pubkey =
+      session?.user?.image === session?.user?.name ? session?.user?.image : getPublicKey(session?.user?.image || '');
 
-    const event: NostrEvent = {
+    let event: NostrEvent = {
       content: content,
       kind: 30023,
       created_at: date,
-      pubkey: getPublicKey(session?.user?.image || ''),
+      pubkey: pubkey || '',
       id: '',
       sig: '',
       tags: [
@@ -88,7 +90,12 @@ const Form: React.FC<Props> = (props: Props) => {
 
     try {
       event.id = getEventHash(event);
-      event.sig = signEvent(event, session?.user?.image || '');
+
+      if (session?.user?.name === session?.user?.image) {
+        event = await window.nostr.signEvent(event);
+      } else {
+        event.sig = signEvent(event, session?.user?.image || '');
+      }
 
       publish(event);
 
@@ -100,7 +107,7 @@ const Form: React.FC<Props> = (props: Props) => {
         setError('title', { message: 'Error in server' });
       }
     } catch (e) {
-      setError('title', { message: 'Error in server' });
+      setError('title', { message: 'Error in server or event signature' });
     }
   };
 

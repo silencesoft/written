@@ -88,6 +88,24 @@ const Form: React.FC<Props> = (props: Props) => {
       event.tags = [...event.tags, ...newTags];
     }
 
+    const notes = content.match(/@note\w+/gi);
+    const notesTags: any = [];
+
+    notes?.forEach((note) => {
+      const post = nip19.decode(note.replace('@', ''));
+
+      content = content.replace(note, `#[${ref}]`);
+
+      notesTags.push(['e', post.data, ref]);
+
+      ref++;
+    });
+
+    if (notes?.length) {
+      event.content = content;
+      event.tags = [...event.tags, ...notesTags];
+    }
+
     try {
       event.id = getEventHash(event);
 
@@ -131,6 +149,17 @@ const Form: React.FC<Props> = (props: Props) => {
         const npub = nip19.npubEncode(pRef.value);
 
         content = content.replace(search, `@${npub}`);
+      });
+    }
+
+    if (posts[0].eRefs?.length) {
+      const { eRefs } = posts[0];
+
+      eRefs.forEach((eRef) => {
+        const search = `#[${eRef.pos}]`;
+        const note = nip19.noteEncode(eRef.value);
+
+        content = content.replace(search, `@${note}`);
       });
     }
 

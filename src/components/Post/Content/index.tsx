@@ -41,7 +41,7 @@ const Content: React.FC<Props> = ({ content, pRefs, eRefs, aRefs }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [output]);
 
-  return <Container>{reactContent && <DoLink>{reactContent}</DoLink>}</Container>;
+  return <Container css={{ overflowWrap: 'break-word' }}>{reactContent && <DoLink>{reactContent}</DoLink>}</Container>;
 };
 
 export default Content;

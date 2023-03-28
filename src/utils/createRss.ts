@@ -1,5 +1,6 @@
 import { Feed } from 'feed';
 import fs from 'fs';
+import path from 'path';
 
 import { Post } from '@/interfaces/posts/post';
 
@@ -9,7 +10,8 @@ type Props = {
 
 export const createRss = ({ posts }: Props) => {
   const siteUrl = process.env.NEXT_PUBLIC_URL || '';
-  const file = './public/rss.xml';
+  const publicDirectory = path.resolve(process.cwd(), 'public');
+  const file = `${publicDirectory}/rss.xml`;
 
   const options = {
     title: `${process.env.NEXT_PUBLIC_NAME} posts | RSS Feed`,

@@ -14,7 +14,7 @@ type Props = {
 
 export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Props) => {
   const [authorsList, setAuthorsList] = useState(pRefs?.map((pRef) => pRef.value) || []);
-  const { events: authors } = useNostrEvents({
+  const { events: authors, isLoading: authorsLoading } = useNostrEvents({
     filter: {
       authors: authorsList,
       kinds: [0],
@@ -53,7 +53,7 @@ export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Pro
     const updateValue = () => {
       let replaced = output;
 
-      if (authorsList?.length && authors.length > authorsList?.length - 10) {
+      if (!authorsLoading) {
         authors.forEach((author) => {
           const value: Refs[] = pRefs?.filter((pRef) => pRef.value === author.pubkey) || ([] as Refs[]);
           const userData: Metadata = JSON.parse(author.content);
@@ -87,7 +87,7 @@ export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Pro
 
     updateValue();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authors.length, force]);
+  }, [authors.length, force, authorsLoading]);
 
   useEffect(() => {
     const updateValue = () => {

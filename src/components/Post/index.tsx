@@ -1,38 +1,40 @@
 import { Container, Loading, Spacer } from '@nextui-org/react';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useRouter } from 'next/router';
-import React, { Suspense, useEffect } from 'react';
+import { useAtomValue } from 'jotai';
+import React, { Suspense } from 'react';
 import Content from './Content';
 
 import { useGetPosts } from '@/hooks/useGetPosts';
-import { filterAtom, postsAtom } from '@/state/nostr';
+import { Filter } from '@/interfaces/nostr/filter';
+import { postsAtom } from '@/state/nostr';
 import Info from './Info';
 import Title from './Title';
 
-type Props = {};
+type Props = { slug: string };
 
-const Post: React.FC<Props> = (props: Props) => {
-  const router = useRouter();
-  const { slug } = router.query;
+const Post: React.FC<Props> = ({ slug }: Props) => {
   const posts = useAtomValue(postsAtom);
-  // const post = posts.filter((post) => post.slug === slug || post.id === slug);
 
-  const setFilter = useSetAtom(filterAtom);
+  let filter: Filter = {} as Filter;
 
-  useEffect(() => {
-    if (slug) {
-      if (slug.toString().match(/[0-9A-Fa-f]{6}/g) && slug.toString().length > 20) {
-        setFilter({ type: 'post', value: slug?.toString() });
-      } else {
-        setFilter({ type: 'slug', value: slug?.toString() });
-      }
+  if (slug) {
+    if (slug.toString().match(/[0-9A-Fa-f]{6}/g) && slug.toString().length > 20) {
+      filter = { type: 'post', value: slug?.toString() };
+    } else {
+      filter = { type: 'slug', value: slug?.toString() };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
+  }
 
-  useGetPosts({});
+  const { isLoading } = useGetPosts({ filter });
 
-  if (!posts.length) {
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
+  if (!posts.length || posts?.[0].slug !== slug) {
     return <></>;
   }
 

@@ -2,15 +2,19 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { dateToUnix, useNostrEvents } from 'nostr-react';
 import { useEffect, useRef } from 'react';
 
+import { defaultFilter } from '@/constants/defaultValues';
+import { Filter } from '@/interfaces/nostr/filter';
 import { Post } from '@/interfaces/posts/post';
 import { authorsAtom, filterAtom, postsAtom, tagsAtom } from '@/state/nostr';
 
-type Props = {};
+type Props = {
+  filter?: Filter;
+};
 
-export const useGetPosts = (props: Props) => {
+export const useGetPosts = ({ filter = defaultFilter }: Props) => {
   const [posts, setPosts] = useAtom(postsAtom);
   const setTags = useSetAtom(tagsAtom);
-  const filter = useAtomValue(filterAtom);
+  const setFilter = useSetAtom(filterAtom);
   const authors: string[] = useAtomValue(authorsAtom);
   const now = useRef(new Date());
   const event: any = {
@@ -21,8 +25,9 @@ export const useGetPosts = (props: Props) => {
       limit: 10,
     },
   };
+  setFilter(filter);
 
-  if (filter.type) {
+  if (filter?.type) {
     let type = '';
     switch (filter.type) {
       case 'tag':
@@ -46,7 +51,7 @@ export const useGetPosts = (props: Props) => {
     }
   }
 
-  const { events } = useNostrEvents(event);
+  const { events, isLoading } = useNostrEvents(event);
   const eventsString = JSON.stringify(events);
 
   useEffect(() => {
@@ -88,9 +93,13 @@ export const useGetPosts = (props: Props) => {
     });
 
     setTags(list.filter((item, index) => list.indexOf(item) === index));
-    setPosts(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventsString, filter.value]);
 
-  return posts;
+    if (!isLoading) {
+      setPosts(data);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventsString, filter.value, isLoading]);
+
+  return { posts, isLoading };
 };

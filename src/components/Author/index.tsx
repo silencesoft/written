@@ -3,12 +3,11 @@ import React, { Suspense } from 'react';
 
 import Header from './Header';
 
-type Props = {};
+type Props = {
+  id: string;
+};
 
-const Author: React.FC<Props> = (props: Props) => {
-  const router = useRouter();
-  const { id } = router.query;
-
+const Author: React.FC<Props> = ({id}: Props) => {
   return <Suspense>{id && <Header />}</Suspense>;
 };
 

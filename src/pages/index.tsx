@@ -1,28 +1,18 @@
-import { useAtom } from 'jotai';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
-import { useEffect } from 'react';
 
 import Blog from '@/components/Blog';
+import { defaultFilter } from '@/constants/defaultValues';
 import { Filter } from '@/interfaces/nostr/filter';
-import { filterAtom } from '@/state/nostr';
 
 const inter = Inter({ subsets: ['latin'] });
 
 type Props = {
   embedded: boolean;
+  filter?: Filter;
 };
 
-export default function Home({ embedded = false }: Props) {
-  const [filter, setFilter] = useAtom(filterAtom);
-
-  useEffect(() => {
-    if (!embedded && filter?.type) {
-      setFilter({} as Filter);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+export default function Home({ filter = defaultFilter, embedded = false }: Props) {
   return (
     <>
       <Head>
@@ -32,7 +22,7 @@ export default function Home({ embedded = false }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main style={{ flex: 1 }}>
-        <Blog />
+        <Blog filter={filter} />
       </main>
     </>
   );

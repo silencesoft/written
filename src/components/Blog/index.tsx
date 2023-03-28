@@ -3,15 +3,26 @@ import { Grid, Loading } from '@nextui-org/react';
 import { useAtomValue } from 'jotai';
 import React, { Suspense } from 'react';
 
+import { Filter } from '@/interfaces/nostr/filter';
 import { postsAtom } from '@/state/nostr';
 import Item from './Item';
 
-type Props = {};
+type Props = {
+  filter: Filter;
+};
 
-const Blog: React.FC<Props> = (props: Props) => {
+const Blog: React.FC<Props> = ({ filter }: Props) => {
   const posts = useAtomValue(postsAtom);
 
-  useGetPosts({});
+  const { isLoading } = useGetPosts({ filter });
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <Grid.Container gap={2}>

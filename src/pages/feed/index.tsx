@@ -1,17 +1,19 @@
 import fs from 'fs';
 import { GetServerSideProps } from 'next';
+import path from 'path';
 import React from 'react';
 
 type Props = {};
 
-const Rss: React.FC = (props: Props) => {
-  return <>Missed feed file.</>;
+const Feed: React.FC = (props: Props) => {
+  return <>Miss feed file.</>;
 };
 
-export default Rss;
+export default Feed;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  const file = `/tmp/rss.xml`;
+  const directory = process.env.NEXT_PUBLIC_RSS_PUBLIC === 'true' ? path.resolve(process.cwd(), 'public') : '/tmp';
+  const file = `${directory}/rss.xml`;
 
   if (fs.existsSync(file)) {
     const content = fs.readFileSync(file);

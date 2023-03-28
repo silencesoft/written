@@ -19,6 +19,9 @@ export default function Home({ filter = defaultFilter, embedded = false }: Props
         <title>Written</title>
         <meta name="description" content="Written" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {process.env.NEXT_PUBLIC_RSS === 'true' && (
+          <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/feed" />
+        )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main style={{ flex: 1 }}>

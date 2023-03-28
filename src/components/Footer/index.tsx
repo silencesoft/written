@@ -14,13 +14,16 @@ const Footer: React.FC<Props> = (props: Props) => {
         }}
       />
       <Spacer y={1} />
-      <Container css={{ d: 'flex', justifyContent: 'space-between' }}>
+      <Container css={{ d: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>(c) 2023</div>
 
-        <Link href="/rss.xml" target={'_blank'}>
-          <MdRssFeed color="#ee802f" size="30px" />
-        </Link>
+        {process.env.NEXT_PUBLIC_RSS === 'true' && (
+          <Link href="/rss.xml" target={'_blank'}>
+            <MdRssFeed color="#ee802f" size="30px" />
+          </Link>
+        )}
       </Container>
+      <Spacer y={1} />
     </>
   );
 };

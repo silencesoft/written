@@ -1,5 +1,6 @@
-import { Spacer } from '@nextui-org/react';
+import { Container, Link, Spacer } from '@nextui-org/react';
 import React from 'react';
+import { MdRssFeed } from 'react-icons/md';
 
 type Props = {};
 
@@ -13,7 +14,13 @@ const Footer: React.FC<Props> = (props: Props) => {
         }}
       />
       <Spacer y={1} />
-      <div>(c) 2023</div>
+      <Container css={{ d: 'flex', justifyContent: 'space-between' }}>
+        <div>(c) 2023</div>
+
+        <Link href="/rss.xml" target={'_blank'}>
+          <MdRssFeed color="#ee802f" size="30px" />
+        </Link>
+      </Container>
     </>
   );
 };

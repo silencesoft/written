@@ -4,6 +4,7 @@ import { useAtomValue } from 'jotai';
 import React, { Suspense } from 'react';
 
 import { Filter } from '@/interfaces/nostr/filter';
+import { createRss } from '@/services/createRss';
 import { postsAtom } from '@/state/nostr';
 import Item from './Item';
 
@@ -13,6 +14,14 @@ type Props = {
 
 const Blog: React.FC<Props> = ({ filter }: Props) => {
   const posts = useAtomValue(postsAtom);
+
+  const savePosts = async () => {
+    await createRss(posts);
+  };
+
+  if (posts.length) {
+    savePosts();
+  }
 
   const { isLoading } = useGetPosts({ filter });
 

@@ -103,6 +103,13 @@ export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Pro
 
             content = content.replaceAll('\n', '\n>>');
 
+            const regex = /(https?:\/\/[^ ]*\.(?:gif|png|jpg|jpeg))/gi;
+            const images = content.match(regex);
+
+            images?.forEach((image) => {
+              content = content.replace(image, `![${image}](${image})`);
+            });
+
             replaced = replaced.replace(
               search,
               `>>[${event.pubkey}](nostr:${event.pubkey})\n>>\n>>${content}\n>>\n>>\n>>Note: [${nip19.noteEncode(

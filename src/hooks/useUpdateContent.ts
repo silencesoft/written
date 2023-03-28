@@ -57,20 +57,23 @@ export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Pro
         authors.forEach((author) => {
           const value: Refs[] = pRefs?.filter((pRef) => pRef.value === author.pubkey) || ([] as Refs[]);
           const userData: Metadata = JSON.parse(author.content);
+          let search = '';
 
           if (value?.length) {
-            const search = `[${value[0].value}](nostr`;
+            search = `[${value[0].value}](nostr`;
+          } else {
+            search = `[${author.pubkey}](nostr`;
+          }
 
-            if (userData?.name) {
-              replaced = replaced.replaceAll(search, `[@${userData.name}](nostr`);
+          if (userData?.name) {
+            replaced = replaced.replaceAll(search, `[@${userData.name}](nostr`);
 
-              const searchImage = `[${value[0].value}.image]`;
+            const searchImage = `[${author.pubkey}.image]`;
 
-              replaced = replaced.replaceAll(
-                searchImage,
-                `<img alt="@${userData.name}" src="${userData?.picture}" width="200" />`
-              );
-            }
+            replaced = replaced.replaceAll(
+              searchImage,
+              `<img alt="@${userData.name}" src="${userData?.picture}" width="200" />`
+            );
           }
         });
 
@@ -96,9 +99,13 @@ export const useUpdateContent = ({ output, setOutput, aRefs, eRefs, pRefs }: Pro
 
           if (value?.length) {
             const search = `[${value[0].value}]`;
+            let content = event.content;
+
+            content = content.replaceAll('\n', '\n>>');
+
             replaced = replaced.replace(
               search,
-              `>>[${event.pubkey}](nostr:${event.pubkey})\n>>\n>>${event.content}\n>>\n>>\n>>[${nip19.noteEncode(
+              `>>[${event.pubkey}](nostr:${event.pubkey})\n>>\n>>${content}\n>>\n>>\n>>Note: [${nip19.noteEncode(
                 event.id
               )}](nostr:${nip19.noteEncode(event.id)})`
             );

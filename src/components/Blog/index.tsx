@@ -19,7 +19,7 @@ const Blog: React.FC<Props> = ({ filter }: Props) => {
     await createRss(posts);
   };
 
-  if (process.env.NEXT_PUBLIC_RSS === 'true' && posts.length) {
+  if (process.env.NEXT_PUBLIC_RSS === 'true' && posts.length && !filter.type) {
     savePosts();
   }
 

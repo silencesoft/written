@@ -1,9 +1,7 @@
-import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Filter } from '@/interfaces/nostr/filter';
-import { filterAtom } from '@/state/nostr';
 import Home from '..';
 
 type Props = {
@@ -13,7 +11,6 @@ type Props = {
 const Tag: React.FC<Props> = (props: Props) => {
   const router = useRouter();
   const { tag } = router.query;
-  const setFilter = useSetAtom(filterAtom);
 
   if (!tag) {
     return <></>;

@@ -33,6 +33,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## Deploy to DigitalOcean
+
+You can use this button to deploy (update repository url to yours):
+
+[![DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/silencesoft/written/tree/main)
+
+Or go to: https://cloud.digitalocean.com/apps/new?repo=https://github.com/silencesoft/written/tree/main
+
 ## Thanks
 
 My Nostr Public key: [npub1gcmpunjrue2aq5um7qgnp4p6uxarlxw2z6djehaf0emxjf6gr9us548zdf](nostr:npub1gcmpunjrue2aq5um7qgnp4p6uxarlxw2z6djehaf0emxjf6gr9us548zdf)

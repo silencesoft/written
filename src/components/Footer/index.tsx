@@ -15,10 +15,10 @@ const Footer: React.FC<Props> = (props: Props) => {
       />
       <Spacer y={1} />
       <Container css={{ d: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>(c) 2023</div>
+        <div>{process.env.NEXT_PUBLIC_FOOTER_COPYRIGHT}</div>
 
         {process.env.NEXT_PUBLIC_RSS === 'true' && (
-          <Link href="/rss.xml" target={'_blank'}>
+          <Link href="/feed" target={'_blank'}>
             <MdRssFeed color="#ee802f" size="30px" />
           </Link>
         )}

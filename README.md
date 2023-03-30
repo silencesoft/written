@@ -18,6 +18,7 @@ Modify the environment variables file:
 - NEXTAUTH_URL : Website url
 - NEXTAUTH_SECRET : Secret word for next authentication
 - NEXT_PUBLIC_NAME : Application name, it shows this name in the header.
+- NEXT_PUBLIC_FOOTER_COPYRIGHT : Copyright text in the footer.
 - NEXT_PUBLIC_RSS : (true - false) Create a RSS File (if it can write in folders).
 - NEXT_PUBLIC_RSS_PUBLIC : (true - false) Use public directory ot tmp to save the file
 - NEXT_PUBLIC_HIDE_SIDEBAR : (true - false) Hide sidebar

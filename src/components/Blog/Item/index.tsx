@@ -26,34 +26,44 @@ const Item: React.FC<Props> = ({ post }: Props) => {
   return (
     <Link href={`/post/${slug}`} style={{ display: 'block', width: '100%' }}>
       <Card isPressable>
-        <Card.Header css={{ position: 'absolute', zIndex: 1, top: 5, textShadow: 'black 2px 2px' }}>
+        <Card.Header
+          css={{
+            position: image ? 'absolute' : 'relative',
+            zIndex: 1,
+            top: 0,
+            textShadow: 'black 2px 2px',
+            bgBlur: '#0f111466',
+          }}
+        >
           <Col>
-            <Text size={12} weight="bold" transform="uppercase">
+            <Text size={12} weight="bold" transform="uppercase" color="white">
               {tags[0]}
             </Text>
-            <Text h2 b size={20} color="white">
+            <Text h2 size={20} color="white" weight="bold">
               {title}
             </Text>
           </Col>
         </Card.Header>
-        <Card.Image
-          src={
-            image
-              ? image
-              : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII= '
-          }
-          objectFit="cover"
-          width="100%"
-          height={340}
-          alt=""
-          title={title}
-        />
+        {image && (
+          <Card.Image
+            src={
+              image
+                ? image
+                : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII= '
+            }
+            objectFit="cover"
+            width="100%"
+            height={340}
+            alt=""
+            title={title}
+          />
+        )}
         <Card.Footer
           isBlurred
           css={{
-            position: 'absolute',
+            position: image ? 'absolute' : 'relative',
             bgBlur: '#0f111466',
-            borderTop: '$borderWeights$light solid $gray800',
+            borderTop: image ? '$borderWeights$light solid $gray800' : '',
             bottom: 0,
             zIndex: 1,
           }}
@@ -61,7 +71,7 @@ const Item: React.FC<Props> = ({ post }: Props) => {
           <Row>
             <Col span={9}>
               <Row>
-                <Col span={4}>
+                <Col css={{ width: 'auto', paddingRight: 16 }}>
                   {userData?.picture ? (
                     <Avatar src={userData?.picture} size="lg" />
                   ) : (
@@ -69,10 +79,10 @@ const Item: React.FC<Props> = ({ post }: Props) => {
                   )}
                 </Col>
                 <Col>
-                  <Text color="#d1d1d1" size={12}>
+                  <Text color="#eeeeee" size={12}>
                     @{userData?.name}&nbsp;
                   </Text>
-                  <Text color="#d1d1d1" size={10}>
+                  <Text color="#eeeeee" size={10}>
                     {dayjs.unix(published_at).format('MMM D, YYYY')}
                   </Text>
                 </Col>
